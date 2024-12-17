@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student List</title>
+</head>
+<body>
+    <h2>Student List</h2>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Photo</th>
+        <th>Video</th>
+        <th>Actions</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.name }}</td>
+        <td>{{ student.student_class }}</td>
+        <td>
+            {% if student.photo %}
+            <img src="{{ student.photo.url }}" width="50" height="50" />
+            {% else %}
+            No Photo
+            {% endif %}
+        </td>
+        <td>
+            {% if student.video %}
+            <a href="{{ student.video.url }}">View Video</a>
+            {% else %}
+            No Video
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'edit_student' student.pk %}">Edit</a> |
+            <form action="{% url 'delete_student' student.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No students available</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'create_student' %}">Add New Student</a>
+
+</body>
+</html>

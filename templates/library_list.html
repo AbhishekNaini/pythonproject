@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Library Records</title>
+</head>
+<body>
+    <h2>Library Records</h2>
+<table border="1">
+    <tr>
+        <th>Student Name</th>
+        <th>Book Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Actions</th>
+    </tr>
+    {% for record in libraries %}
+    <tr>
+        <td>{{ record.student.name }}</td>
+        <td>{{ record.book.name }}</td>
+        <td>{{ record.start_date }}</td>
+        <td>{{ record.end_date }}</td>
+        <td>
+            <a href="{% url 'edit_issue' record.pk %}">Edit</a> |
+            <form action="{% url 'delete_issue' record.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No library records available</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'issue_book' %}">Issue New Book</a>
+
+</body>
+</html>

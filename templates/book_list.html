@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h2>Book List</h2>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Publication</th>
+        <th>Year</th>
+        <th>Actions</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.name }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publication }}</td>
+        <td>{{ book.year }}</td>
+        <td>
+            <a href="{% url 'edit_book' book.pk %}">Edit</a> |
+            <form action="{% url 'delete_book' book.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No books available</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'create_book' %}">Add New Book</a>
+
+</body>
+</html>
